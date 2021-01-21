@@ -14,9 +14,12 @@ To run this dummy app successfully follow the instructions below
 ## A walk through installation to the dependencies for the k8s dummy app
 ### Starting minikube
 We are running a ubuntu vm so we will use `--driver=none`
+
     sudo minikube start --driver=none
+
 ### Enable ingress for later use
     sudo minikube addons enable ingress
+
 ### Install ansble 2.9
     sudo apt install software-properties-common
     sudo apt-add-repository ppa:ansible/ansible
@@ -45,9 +48,11 @@ Content in this collection requires the [OpenShift Python client](https://pypi.o
     sudo ./minikube-hosts-update
 
 Output:
+
    minikube ip hello-isazi.co
 
 Verify that the Ingress controller is directing traffic:
+
 curl hello-isazi.co
 
 
