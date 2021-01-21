@@ -1,0 +1,19 @@
+#!/bin/bash
+#
+# A script to update your /etc/hosts file from minikube ingest records
+
+set -e
+
+INGRESSES=$(kubectl --context=minikube --all-namespaces=true get ingress -o jsonpath='{.items[*].spec.rules[*].host}')
+
+MINIKUBE_IP=$(minikube ip)
+
+HOSTS_ENTRY="$MINIKUBE_IP $INGRESSES"
+
+if grep -Fq "$HOSTS_ENTRY" /etc/hosts > /dev/null
+then
+    echo "Updated hosts entry"
+else
+    echo "$HOSTS_ENTRY" | sudo tee -a /etc/hosts
+    echo "Added hosts entry"
+fi
