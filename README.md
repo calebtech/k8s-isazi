@@ -1,5 +1,6 @@
-# k8s-isazi dummy app
+# K8s Isazi Dummy App
 To run this dummy app successfully follow the instructions below
+
     git clone https://github.com/calebtech/k8s-isazi.git
     cd k8s-isazi/
 ### Pre-requisites
