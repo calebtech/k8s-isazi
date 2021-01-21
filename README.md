@@ -49,10 +49,10 @@ Content in this collection requires the [OpenShift Python client](https://pypi.o
 
 Output:
 
-   minikube ip hello-isazi.co
+    minikube ip hello-isazi.co
 
 Verify that the Ingress controller is directing traffic:
 
-curl hello-isazi.co
+    curl hello-isazi.co
 
 

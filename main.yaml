@@ -2,7 +2,7 @@
 - hosts: localhost
   gather_facts: no
   connection: local
-  become: false
+  become: no
 
   collections:
     - community.kubernetes
