@@ -18,7 +18,10 @@
         path: app
         state: build
 
-    - name: Deploy Hello App 
+    - name: Deploy Kong API Gateway Pod
+      command: kubectl apply -f https://bit.ly/k4k8s
+
+    - name: Deploy Hello App Pod
       k8s:
         definition:
           state: present
@@ -30,7 +33,7 @@
             name: web
             namespace: default
           spec:
-            replicas: 2
+            replicas: 1
             selector:
               matchLabels:
                 app: web
@@ -45,31 +48,10 @@
                   imagePullPolicy: IfNotPresent
                   name: hello-app
                   ports:
-                  - containerPort: 5000
-          
-    - name: Create an Ingress resources
-      k8s:
-        state: present
-        definition:
-          apiVersion: extensions/v1beta1
-          kind: Ingress
-          metadata:
-            name: web-ingress
-            namespace: default
-            annotations:
-              kubernetes.io/ingress.class: nginx
-              nginx.ingress.kubernetes.io/rewrite-target: /$1
-          spec:
-            rules:
-              - host: hello-isazi.co
-                http:
-                  paths:
-                    - path: /
-                      backend:
-                        serviceName: web
-                        servicePort: 5000
+                    - containerPort: 5000
 
-    - name: Create a Service for Hello App.
+
+    - name: Create a Service for Hello App Pod
       k8s:
         state: present
         definition:
@@ -81,7 +63,7 @@
             name: web
             namespace: default
           spec:
-            type: LoadBalancer
+            type: ClusterIP
             ports:
             - port: 5000
               targetPort: 5000
@@ -89,3 +71,22 @@
               app: web
 
 
+    - name: Create an Ingress resource
+      k8s:
+        state: present
+        definition:
+          apiVersion: extensions/v1beta1
+          kind: Ingress
+          metadata:
+            name: web-ingress
+            namespace: default
+            annotations:
+              kubernetes.io/ingress.class: kong
+          spec:
+            rules:
+            - http:
+                paths:
+                - path: /
+                  backend:
+                    serviceName: web
+                    servicePort: 5000
