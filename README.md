@@ -45,15 +45,10 @@ Content in this collection requires the [OpenShift Python client](https://pypi.o
 ### Check if your pods are running
     kubectl get pods --all-namespaces
 
-### Now let's send the traffic to the ingress HOST, we have a mini script that does that for us
-    sudo ./minikube-hosts-update
+### Use the following commands to check the proxy ip address for the app
 
-Output:
+    minikube service -n kong kong-proxy --url | head -1 
 
-    minikube ip hello-isazi.co
 
-Verify that the Ingress controller is directing traffic:
-
-    curl hello-isazi.co
-
+I have used a simple dummy app just to show how kong gateway acts as a proxy and how it interpretes requests from the outside world to our internal services. There's lot more fuctionalities that comes with the kong gateway it all depends on the complexity of your app and how your want to set rules and it can be used for ACL and lot more.
 
